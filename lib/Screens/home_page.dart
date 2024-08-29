@@ -11,6 +11,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final DatabaseService _databaseService = DatabaseService.instance;
 
+  String? _task = null;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +27,38 @@ class _HomePageState extends State<HomePage> {
           context: context,
           builder: (_) => AlertDialog(
             title: const Text("add Task"),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      _task = value;
+                    });
+                  },
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Hello World...",
+                  ),
+                ),
+                MaterialButton(
+                  color: Colors.red,
+                  onPressed: () {
+                    if (_task == null || _task == "") return;
+                    _databaseService.addTask(_task!);
+                    setState(() {
+                      
+                    });
+                  },
+                  child: const Text(
+                    "Done",
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         );
       },
